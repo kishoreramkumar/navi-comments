@@ -9,27 +9,13 @@ function App() {
   return (
     <ThemeProvider theme={lightTheme}>
       <div className="App">
-        <Button type={BUTTON_TYPES.normal} category={BUTTON_CATEGORY.primary}>
-          Button
-        </Button>
-        <Button type={BUTTON_TYPES.normal} category={BUTTON_CATEGORY.secondary}>
-          Button
-        </Button>
-        <Button type={BUTTON_TYPES.normal} category={BUTTON_CATEGORY.error}>
-          Button
-        </Button>
-        <Button type={BUTTON_TYPES.outline} category={BUTTON_CATEGORY.primary}>
-          Button
-        </Button>
-        <Button
-          type={BUTTON_TYPES.outline}
-          category={BUTTON_CATEGORY.secondary}
-        >
-          Button
-        </Button>
-        <Button type={BUTTON_TYPES.outline} category={BUTTON_CATEGORY.error}>
-          Button
-        </Button>
+        <Input
+          onChange={() => {}}
+          value={""}
+          name="comment"
+          label=""
+          placeholder="please add comment"
+        />
       </div>
     </ThemeProvider>
   );
