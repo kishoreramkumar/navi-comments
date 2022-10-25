@@ -1,5 +1,5 @@
 import { ChangeEvent, HTMLInputTypeAttribute } from "react";
-import { noop } from "../../utils";
+import { noop } from "../../../utils";
 import { InputLabel, InputWrapper, InputTag } from "./style";
 
 interface InputProps {

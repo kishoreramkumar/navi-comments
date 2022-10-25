@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { noop } from "../../utils";
+import { noop } from "../../../utils";
 import { ButtonWrapper } from "./style";
 
 interface ButtonPropType {
