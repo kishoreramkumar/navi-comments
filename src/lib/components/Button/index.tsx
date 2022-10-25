@@ -44,8 +44,8 @@ export default function Button({
 }
 
 Button.defaultProps = {
-  category: "PRIMARY",
-  type: "NORMAL",
+  category: "primary",
+  type: "normal",
   className: "",
   onClick: noop,
   disabled: false,

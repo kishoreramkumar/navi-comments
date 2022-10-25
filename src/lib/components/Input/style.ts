@@ -12,7 +12,7 @@ const InputLabel = styled.label`
 const InputTag = styled.input`
   background: ${({ theme }) => theme?.body};
   color: ${({ theme }) => theme?.text};
-  border: 1px solid;
+  border: 1.5px solid;
   border-color: ${({ theme }) => theme?.dark};
   padding: 0.5rem;
   border-radius: 5px;
