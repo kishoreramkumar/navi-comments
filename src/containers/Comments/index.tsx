@@ -47,12 +47,12 @@ function Comments({}) {
         id: getUniqueId(),
         body: reply,
         createdAt: timeStamp,
-        createdBy: "",
+        createdBy: currentUser,
         updatedAt: timeStamp,
       });
       setCommentList(_commentList);
     },
-    [commentList]
+    [commentList, currentUser]
   );
 
   const handleEdit = useCallback(
