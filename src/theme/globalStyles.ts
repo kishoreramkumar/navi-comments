@@ -26,6 +26,9 @@ body {
     [aria-disabled=true]{
       pointer-events: none;
     }
+    .notice{
+     color: ${({ theme }) => theme.error}
+    }
 }
 
 code {

@@ -108,9 +108,9 @@ function Comments({}) {
           name="current-user"
         />
       </div>
-      <span>
-        Change the current user. Edit and delete are user specific and the data
-        will persist on reload
+      <span className="notice">
+        <u>Note:</u> Change the current user. Edit and delete are user specific
+        and the data will persist on reload
       </span>
       <AddComment
         handleAddComment={handleAddComment}

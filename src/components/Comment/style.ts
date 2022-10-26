@@ -11,8 +11,11 @@ const CommentWrapper = styled.div`
     padding: 0.25rem 0;
     display: flex;
     justify-content: space-between;
-    span:first-child {
+    .user-detail {
       margin-right: 1rem;
+    }
+    .date-detail {
+      margin-left: auto;
     }
     .user-name {
       color: ${({ theme }) => {

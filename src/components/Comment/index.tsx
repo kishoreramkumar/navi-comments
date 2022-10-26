@@ -45,11 +45,13 @@ function Comment({
           <div className="comment-body">{data.body}</div>
           <div className="meta-details">
             {data.createdBy && (
-              <span>
+              <span className="user-detail">
                 Created By : <span className="user-name">{data.createdBy}</span>
               </span>
             )}
-            <span>{new Date(data.createdAt).toString().slice(0, 24)}</span>
+            <span className="date-detail">
+              {new Date(data.createdAt).toString().slice(0, 24)}
+            </span>
           </div>
           <div>
             <Button
