@@ -1,6 +1,7 @@
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useCallback } from "react";
 import { Button, Input } from "../../lib/components";
 import { getCurrentTimestamp, getUniqueId } from "../../utils";
+import CommentInput from "../CommentInput";
 import { AddCommentWrapper } from "./style";
 
 interface iAddCommentPropType {
@@ -9,11 +10,7 @@ interface iAddCommentPropType {
 function AddComment({ handleAddComment }: iAddCommentPropType) {
   const [comment, setComment] = useState<string>("");
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setComment(e.target.value);
-  };
-
-  const handleAddBtnClick = () => {
+  const handleAddBtnClick = useCallback(() => {
     const timeStamp = getCurrentTimestamp();
     handleAddComment({
       id: getUniqueId(),
@@ -23,21 +20,19 @@ function AddComment({ handleAddComment }: iAddCommentPropType) {
       updatedAt: timeStamp,
     });
     setComment("");
-  };
+  }, [comment, handleAddComment]);
 
   return (
     <AddCommentWrapper>
       <h2>Comment Widget</h2>
       <div className="comment-input-container">
-        <div className="input-wrapper">
-          <Input
-            value={comment}
-            placeholder="Enter a comment"
-            name="add-comment"
-            label=""
-            onChange={handleInputChange}
-          />
-        </div>
+        <CommentInput
+          className="input-wrapper"
+          value={comment}
+          placeholder="Enter a comment"
+          name="add-comment"
+          onChange={setComment}
+        />
         <Button disabled={!comment} onClick={handleAddBtnClick}>
           Add Comment
         </Button>

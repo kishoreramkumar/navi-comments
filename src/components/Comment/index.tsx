@@ -2,6 +2,9 @@ import { memo, useState } from "react";
 import { Button, Input } from "../../lib/components";
 import { BUTTON_CATEGORY, BUTTON_TYPES } from "../../lib/components/Button";
 import { CommentType } from "../../utils/types";
+import EditComment from "../EditComment";
+import ReplyComment from "../ReplyComment";
+import { CommentWrapper } from "./style";
 
 function Comment({
   data,
@@ -14,51 +17,26 @@ function Comment({
   handleDelete: Function;
   handleEdit: Function;
 }) {
-  const [replyComment, setReplyComment] = useState("");
   const [enableReply, setReplyStatus] = useState(false);
   const [enableEdit, setEnableEdit] = useState(false);
-  const [editCommentValue, setEditComment] = useState<string>(data.body);
 
   return (
-    <div>
+    <CommentWrapper>
       {enableEdit && (
-        <div>
-          <div>
-            <Input
-              value={editCommentValue}
-              onChange={(e) => {
-                setEditComment(e.target.value);
-              }}
-              name="edit-comment"
-            ></Input>
-          </div>
-          <div>
-            <Button
-              disabled={!editCommentValue}
-              category={BUTTON_CATEGORY.secondary}
-              onClick={() => {
-                setEnableEdit(false);
-                handleEdit(editCommentValue);
-              }}
-            >
-              Update
-            </Button>
-            <Button
-              type={BUTTON_TYPES.outline}
-              category={BUTTON_CATEGORY.error}
-              onClick={() => {
-                setEnableEdit(false);
-                setEditComment(data.body);
-              }}
-            >
-              Cancel
-            </Button>
-          </div>
-        </div>
+        <EditComment
+          body={data.body}
+          handleUpdate={(commentValue: string) => {
+            setEnableEdit(false);
+            handleEdit(commentValue);
+          }}
+          handleCancel={() => {
+            setEnableEdit(false);
+          }}
+        />
       )}
       {!enableEdit && (
-        <div>
-          <div>{data.body}</div>
+        <div className="comment-container">
+          <div className="comment-body">{data.body}</div>
           <div>
             <Button
               type={BUTTON_TYPES.outline}
@@ -92,36 +70,17 @@ function Comment({
         </div>
       )}
       {enableReply && (
-        <div>
-          <Input
-            value={replyComment}
-            name="reply-input"
-            onChange={(e) => {
-              setReplyComment(e.target.value);
-            }}
-          />{" "}
-          <Button
-            disabled={!replyComment}
-            onClick={() => {
-              handleReply(replyComment);
-              setReplyComment("");
-              setReplyStatus(false);
-            }}
-          >
-            Reply
-          </Button>
-          <Button
-            category={BUTTON_CATEGORY.error}
-            type={BUTTON_TYPES.outline}
-            onClick={() => {
-              setReplyStatus(false);
-            }}
-          >
-            Cancel
-          </Button>
-        </div>
+        <ReplyComment
+          handleReply={(replyComment: string) => {
+            handleReply(replyComment);
+            setReplyStatus(false);
+          }}
+          handleCancel={() => {
+            setReplyStatus(false);
+          }}
+        />
       )}
-    </div>
+    </CommentWrapper>
   );
 }
 

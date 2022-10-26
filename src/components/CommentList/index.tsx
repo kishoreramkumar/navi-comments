@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import { CommentType } from "../../utils/types";
 import Comment from "../Comment";
 
@@ -15,25 +15,26 @@ function CommentList({
   handleDelete,
   handleEdit,
 }: iCommentList) {
-  const handleOnReply = (
-    reply: string,
-    pathArr: Array<number>,
-    index: number
-  ) => {
-    handleReply(reply, [index, ...pathArr]);
-  };
+  const handleOnReply = useCallback(
+    (reply: string, pathArr: Array<number>, index: number) => {
+      handleReply(reply, [index, ...pathArr]);
+    },
+    [handleReply]
+  );
 
-  const handleOnDelete = (pathArr: Array<number>, index: number) => {
-    handleDelete([index, ...pathArr]);
-  };
+  const handleOnDelete = useCallback(
+    (pathArr: Array<number>, index: number) => {
+      handleDelete([index, ...pathArr]);
+    },
+    [handleDelete]
+  );
 
-  const handleOnEdit = (
-    updatedComment: string,
-    pathArr: Array<number>,
-    index: number
-  ) => {
-    handleEdit(updatedComment, [index, ...pathArr]);
-  };
+  const handleOnEdit = useCallback(
+    (updatedComment: string, pathArr: Array<number>, index: number) => {
+      handleEdit(updatedComment, [index, ...pathArr]);
+    },
+    [handleEdit]
+  );
 
   return (
     <div style={{ marginLeft: "1rem" }}>

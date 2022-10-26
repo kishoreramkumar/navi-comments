@@ -5,8 +5,6 @@ const AddCommentWrapper = styled.div`
     display: flex;
   }
   .input-wrapper {
-    width: 20rem;
-    max-width: 100%;
     margin-right: 1rem;
   }
 `;

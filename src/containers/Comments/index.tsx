@@ -1,5 +1,5 @@
 import { timeStamp } from "console";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import AddComment from "../../components/AddComment";
 import CommentList from "../../components/CommentList";
 import { Input } from "../../lib/components";
@@ -9,69 +9,78 @@ import { CommentType } from "../../utils/types";
 function Comments() {
   const [commentList, setCommentList] = useState<Array<CommentType>>([]);
 
-  const handleAddComment = (comment: CommentType) => {
+  const handleAddComment = useCallback((comment: CommentType) => {
     setCommentList((prevCommentList: Array<CommentType>) => {
       return [...prevCommentList, comment];
     });
-  };
+  }, []);
 
-  const handleReply = (reply: string, pathArr: Array<number>) => {
-    const _commentList = [...commentList];
-    let commentModified = _commentList;
-    pathArr.forEach((pathInd: number) => {
-      if (!commentModified[pathInd].replies) {
-        commentModified[pathInd].replies = [];
-      }
-      commentModified = commentModified[pathInd].replies ?? [];
-    });
-    const timeStamp = getCurrentTimestamp();
-    commentModified.push({
-      id: getUniqueId(),
-      body: reply,
-      createdAt: timeStamp,
-      createdBy: "",
-      updatedAt: timeStamp,
-    });
-    setCommentList(_commentList);
-  };
-
-  const handleEdit = (updatedComment: string, pathArr: Array<number>) => {
-    const _commentList = [...commentList];
-    let commentModified = _commentList;
-    pathArr.forEach((pathInd: number, arrIndex) => {
-      if (!commentModified[pathInd].replies) {
-        commentModified[pathInd].replies = [];
-      }
-      if (pathArr.length - 1 === arrIndex) {
-        const timeStamp = getCurrentTimestamp();
-        commentModified[pathInd].body = updatedComment;
-        commentModified[pathInd].updatedAt = timeStamp;
-      } else {
+  const handleReply = useCallback(
+    (reply: string, pathArr: Array<number>) => {
+      const _commentList = [...commentList];
+      let commentModified = _commentList;
+      pathArr.forEach((pathInd: number) => {
+        if (!commentModified[pathInd].replies) {
+          commentModified[pathInd].replies = [];
+        }
         commentModified = commentModified[pathInd].replies ?? [];
-      }
-    });
+      });
+      const timeStamp = getCurrentTimestamp();
+      commentModified.push({
+        id: getUniqueId(),
+        body: reply,
+        createdAt: timeStamp,
+        createdBy: "",
+        updatedAt: timeStamp,
+      });
+      setCommentList(_commentList);
+    },
+    [commentList]
+  );
 
-    setCommentList(_commentList);
-  };
+  const handleEdit = useCallback(
+    (updatedComment: string, pathArr: Array<number>) => {
+      const _commentList = [...commentList];
+      let commentModified = _commentList;
+      pathArr.forEach((pathInd: number, arrIndex) => {
+        if (!commentModified[pathInd].replies) {
+          commentModified[pathInd].replies = [];
+        }
+        if (pathArr.length - 1 === arrIndex) {
+          const timeStamp = getCurrentTimestamp();
+          commentModified[pathInd].body = updatedComment;
+          commentModified[pathInd].updatedAt = timeStamp;
+        } else {
+          commentModified = commentModified[pathInd].replies ?? [];
+        }
+      });
 
-  const handleDelete = (pathArr: Array<number>) => {
-    const _commentList = [...commentList];
-    let commentModified = _commentList;
-    pathArr.forEach((pathInd: number, arrIndex: number) => {
-      if (!commentModified[pathInd].replies) {
-        commentModified[pathInd].replies = [];
-      }
-      if (pathArr.length - 1 === arrIndex) {
-        commentModified.splice(pathInd, 1);
-      } else {
-        commentModified = commentModified[pathInd].replies ?? [];
-      }
-    });
-    setCommentList(_commentList);
-  };
+      setCommentList(_commentList);
+    },
+    [commentList]
+  );
+
+  const handleDelete = useCallback(
+    (pathArr: Array<number>) => {
+      const _commentList = [...commentList];
+      let commentModified = _commentList;
+      pathArr.forEach((pathInd: number, arrIndex: number) => {
+        if (!commentModified[pathInd].replies) {
+          commentModified[pathInd].replies = [];
+        }
+        if (pathArr.length - 1 === arrIndex) {
+          commentModified.splice(pathInd, 1);
+        } else {
+          commentModified = commentModified[pathInd].replies ?? [];
+        }
+      });
+      setCommentList(_commentList);
+    },
+    [commentList]
+  );
 
   return (
-    <div>
+    <div style={{ padding: "0.5rem" }}>
       <AddComment handleAddComment={handleAddComment} />
       <CommentList
         comments={commentList}
