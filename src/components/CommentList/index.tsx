@@ -6,9 +6,15 @@ interface iCommentList {
   comments: Array<CommentType>;
   handleReply: Function;
   handleDelete: Function;
+  handleEdit: Function;
 }
 
-function CommentList({ comments, handleReply, handleDelete }: iCommentList) {
+function CommentList({
+  comments,
+  handleReply,
+  handleDelete,
+  handleEdit,
+}: iCommentList) {
   const handleOnReply = (
     reply: string,
     pathArr: Array<number>,
@@ -21,6 +27,14 @@ function CommentList({ comments, handleReply, handleDelete }: iCommentList) {
     handleDelete([index, ...pathArr]);
   };
 
+  const handleOnEdit = (
+    updatedComment: string,
+    pathArr: Array<number>,
+    index: number
+  ) => {
+    handleEdit(updatedComment, [index, ...pathArr]);
+  };
+
   return (
     <div style={{ marginLeft: "1rem" }}>
       {comments.map((c, index) => (
@@ -31,6 +45,9 @@ function CommentList({ comments, handleReply, handleDelete }: iCommentList) {
             handleDelete={() => {
               handleOnDelete([], index);
             }}
+            handleEdit={(updatedComment: string) => {
+              handleOnEdit(updatedComment, [], index);
+            }}
           />
           {c.replies && (
             <CommentList
@@ -40,6 +57,9 @@ function CommentList({ comments, handleReply, handleDelete }: iCommentList) {
               }
               handleDelete={(pathArr: Array<number>) => {
                 handleOnDelete(pathArr, index);
+              }}
+              handleEdit={(updatedComment: string, pathArr: Array<number>) => {
+                handleOnEdit(updatedComment, pathArr, index);
               }}
             />
           )}

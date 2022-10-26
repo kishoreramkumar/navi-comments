@@ -35,6 +35,25 @@ function Comments() {
     setCommentList(_commentList);
   };
 
+  const handleEdit = (updatedComment: string, pathArr: Array<number>) => {
+    const _commentList = [...commentList];
+    let commentModified = _commentList;
+    pathArr.forEach((pathInd: number, arrIndex) => {
+      if (!commentModified[pathInd].replies) {
+        commentModified[pathInd].replies = [];
+      }
+      if (pathArr.length - 1 === arrIndex) {
+        const timeStamp = getCurrentTimestamp();
+        commentModified[pathInd].body = updatedComment;
+        commentModified[pathInd].updatedAt = timeStamp;
+      } else {
+        commentModified = commentModified[pathInd].replies ?? [];
+      }
+    });
+
+    setCommentList(_commentList);
+  };
+
   const handleDelete = (pathArr: Array<number>) => {
     const _commentList = [...commentList];
     let commentModified = _commentList;
@@ -58,6 +77,7 @@ function Comments() {
         comments={commentList}
         handleReply={handleReply}
         handleDelete={handleDelete}
+        handleEdit={handleEdit}
       />
     </div>
   );

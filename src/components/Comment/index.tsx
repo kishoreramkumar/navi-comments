@@ -7,42 +7,90 @@ function Comment({
   data,
   handleReply,
   handleDelete,
+  handleEdit,
 }: {
   data: CommentType;
   handleReply: Function;
   handleDelete: Function;
+  handleEdit: Function;
 }) {
   const [replyComment, setReplyComment] = useState("");
   const [enableReply, setReplyStatus] = useState(false);
+  const [enableEdit, setEnableEdit] = useState(false);
+  const [editCommentValue, setEditComment] = useState<string>(data.body);
 
   return (
     <div>
-      <div>{data.body}</div>
-      <div>
-        <Button
-          type={BUTTON_TYPES.outline}
-          category={BUTTON_CATEGORY.primary}
-          onClick={() => {
-            setReplyStatus(true);
-          }}
-          disabled={enableReply}
-        >
-          Reply
-        </Button>
-        <Button
-          type={BUTTON_TYPES.outline}
-          category={BUTTON_CATEGORY.secondary}
-        >
-          Edit
-        </Button>
-        <Button
-          type={BUTTON_TYPES.outline}
-          category={BUTTON_CATEGORY.error}
-          onClick={() => handleDelete()}
-        >
-          Delete
-        </Button>
-      </div>
+      {enableEdit && (
+        <div>
+          <div>
+            <Input
+              value={editCommentValue}
+              onChange={(e) => {
+                setEditComment(e.target.value);
+              }}
+              name="edit-comment"
+            ></Input>
+          </div>
+          <div>
+            <Button
+              disabled={!editCommentValue}
+              category={BUTTON_CATEGORY.secondary}
+              onClick={() => {
+                setEnableEdit(false);
+                handleEdit(editCommentValue);
+              }}
+            >
+              Update
+            </Button>
+            <Button
+              type={BUTTON_TYPES.outline}
+              category={BUTTON_CATEGORY.error}
+              onClick={() => {
+                setEnableEdit(false);
+                setEditComment(data.body);
+              }}
+            >
+              Cancel
+            </Button>
+          </div>
+        </div>
+      )}
+      {!enableEdit && (
+        <div>
+          <div>{data.body}</div>
+          <div>
+            <Button
+              type={BUTTON_TYPES.outline}
+              category={BUTTON_CATEGORY.primary}
+              onClick={() => {
+                setReplyStatus(true);
+                setEnableEdit(false);
+              }}
+              disabled={enableReply}
+            >
+              Reply
+            </Button>
+            <Button
+              type={BUTTON_TYPES.outline}
+              category={BUTTON_CATEGORY.secondary}
+              onClick={() => {
+                setEnableEdit(true);
+                setReplyStatus(false);
+              }}
+            >
+              Edit
+            </Button>
+            <Button
+              type={BUTTON_TYPES.outline}
+              category={BUTTON_CATEGORY.error}
+              onClick={() => handleDelete()}
+            >
+              Delete
+            </Button>
+          </div>
+        </div>
+      )}
       {enableReply && (
         <div>
           <Input

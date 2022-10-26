@@ -1,6 +1,6 @@
 export interface CommentType {
-  id: String;
-  body: String;
+  id: string;
+  body: string;
   createdAt: number;
   createdBy: string;
   replies?: Array<CommentType>;
