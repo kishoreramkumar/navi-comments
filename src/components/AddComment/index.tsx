@@ -5,9 +5,10 @@ import CommentInput from "../CommentInput";
 import { AddCommentWrapper } from "./style";
 
 interface iAddCommentPropType {
+  currentUser?: string;
   handleAddComment: Function;
 }
-function AddComment({ handleAddComment }: iAddCommentPropType) {
+function AddComment({ currentUser, handleAddComment }: iAddCommentPropType) {
   const [comment, setComment] = useState<string>("");
 
   const handleAddBtnClick = useCallback(() => {
@@ -16,11 +17,11 @@ function AddComment({ handleAddComment }: iAddCommentPropType) {
       id: getUniqueId(),
       body: comment,
       createdAt: timeStamp,
-      createdBy: "",
+      createdBy: currentUser,
       updatedAt: timeStamp,
     });
     setComment("");
-  }, [comment, handleAddComment]);
+  }, [comment, currentUser, handleAddComment]);
 
   return (
     <AddCommentWrapper>

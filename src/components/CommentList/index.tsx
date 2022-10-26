@@ -1,4 +1,4 @@
-import { memo, useCallback } from "react";
+import { Fragment, memo, useCallback } from "react";
 import { CommentType } from "../../utils/types";
 import Comment from "../Comment";
 
@@ -7,10 +7,12 @@ interface iCommentList {
   handleReply: Function;
   handleDelete: Function;
   handleEdit: Function;
+  currentUser?: string;
 }
 
 function CommentList({
   comments,
+  currentUser,
   handleReply,
   handleDelete,
   handleEdit,
@@ -39,8 +41,9 @@ function CommentList({
   return (
     <div style={{ marginLeft: "1rem" }}>
       {comments.map((c, index) => (
-        <>
+        <Fragment key={c.id}>
           <Comment
+            key={c.id}
             data={c}
             handleReply={(reply: string) => handleOnReply(reply, [], index)}
             handleDelete={() => {
@@ -49,9 +52,11 @@ function CommentList({
             handleEdit={(updatedComment: string) => {
               handleOnEdit(updatedComment, [], index);
             }}
+            currentUser={currentUser}
           />
           {c.replies && (
             <CommentList
+              key={"replies-" + c.id}
               comments={c.replies}
               handleReply={(reply: string, pathArr: Array<number>) =>
                 handleOnReply(reply, pathArr, index)
@@ -62,9 +67,10 @@ function CommentList({
               handleEdit={(updatedComment: string, pathArr: Array<number>) => {
                 handleOnEdit(updatedComment, pathArr, index);
               }}
+              currentUser={currentUser}
             />
           )}
-        </>
+        </Fragment>
       ))}
     </div>
   );

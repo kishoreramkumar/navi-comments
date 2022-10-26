@@ -1,13 +1,30 @@
 import { timeStamp } from "console";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import AddComment from "../../components/AddComment";
 import CommentList from "../../components/CommentList";
 import { Input } from "../../lib/components";
 import { getCurrentTimestamp, getUniqueId } from "../../utils";
+import {
+  getPersistCommentsData,
+  setPersistCommentsData,
+} from "../../utils/data";
 import { CommentType } from "../../utils/types";
 
-function Comments() {
+function Comments({}) {
   const [commentList, setCommentList] = useState<Array<CommentType>>([]);
+  const [currentUser, setCurrentUser] = useState("NAVI");
+  const isFirstLoadedRef = useRef(false);
+
+  // get the persisted data from localstorage
+  useEffect(() => {
+    setCommentList(getPersistCommentsData());
+  }, []);
+
+  // get the  data to localstorage to persist while reload
+  useEffect(() => {
+    if (isFirstLoadedRef.current) setPersistCommentsData(commentList);
+    else isFirstLoadedRef.current = true;
+  }, [commentList]);
 
   const handleAddComment = useCallback((comment: CommentType) => {
     setCommentList((prevCommentList: Array<CommentType>) => {
@@ -81,12 +98,30 @@ function Comments() {
 
   return (
     <div style={{ padding: "0.5rem" }}>
-      <AddComment handleAddComment={handleAddComment} />
+      <div>
+        Current User:{" "}
+        <Input
+          value={currentUser}
+          onChange={(e) => {
+            setCurrentUser(e.target.value);
+          }}
+          name="current-user"
+        />
+      </div>
+      <span>
+        Change the current user. Edit and delete are user specific and the data
+        will persist on reload
+      </span>
+      <AddComment
+        handleAddComment={handleAddComment}
+        currentUser={currentUser}
+      />
       <CommentList
         comments={commentList}
         handleReply={handleReply}
         handleDelete={handleDelete}
         handleEdit={handleEdit}
+        currentUser={currentUser}
       />
     </div>
   );
