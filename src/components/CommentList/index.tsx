@@ -5,9 +5,10 @@ import Comment from "../Comment";
 interface iCommentList {
   comments: Array<CommentType>;
   handleReply: Function;
+  handleDelete: Function;
 }
 
-function CommentList({ comments, handleReply }: iCommentList) {
+function CommentList({ comments, handleReply, handleDelete }: iCommentList) {
   const handleOnReply = (
     reply: string,
     pathArr: Array<number>,
@@ -15,6 +16,11 @@ function CommentList({ comments, handleReply }: iCommentList) {
   ) => {
     handleReply(reply, [index, ...pathArr]);
   };
+
+  const handleOnDelete = (pathArr: Array<number>, index: number) => {
+    handleDelete([index, ...pathArr]);
+  };
+
   return (
     <div style={{ marginLeft: "1rem" }}>
       {comments.map((c, index) => (
@@ -22,6 +28,9 @@ function CommentList({ comments, handleReply }: iCommentList) {
           <Comment
             data={c}
             handleReply={(reply: string) => handleOnReply(reply, [], index)}
+            handleDelete={() => {
+              handleOnDelete([], index);
+            }}
           />
           {c.replies && (
             <CommentList
@@ -29,6 +38,9 @@ function CommentList({ comments, handleReply }: iCommentList) {
               handleReply={(reply: string, pathArr: Array<number>) =>
                 handleOnReply(reply, pathArr, index)
               }
+              handleDelete={(pathArr: Array<number>) => {
+                handleOnDelete(pathArr, index);
+              }}
             />
           )}
         </>

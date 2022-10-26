@@ -35,10 +35,30 @@ function Comments() {
     setCommentList(_commentList);
   };
 
+  const handleDelete = (pathArr: Array<number>) => {
+    const _commentList = [...commentList];
+    let commentModified = _commentList;
+    pathArr.forEach((pathInd: number, arrIndex: number) => {
+      if (!commentModified[pathInd].replies) {
+        commentModified[pathInd].replies = [];
+      }
+      if (pathArr.length - 1 === arrIndex) {
+        commentModified.splice(pathInd, 1);
+      } else {
+        commentModified = commentModified[pathInd].replies ?? [];
+      }
+    });
+    setCommentList(_commentList);
+  };
+
   return (
     <div>
       <AddComment handleAddComment={handleAddComment} />
-      <CommentList comments={commentList} handleReply={handleReply} />
+      <CommentList
+        comments={commentList}
+        handleReply={handleReply}
+        handleDelete={handleDelete}
+      />
     </div>
   );
 }

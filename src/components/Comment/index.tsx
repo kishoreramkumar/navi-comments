@@ -6,9 +6,11 @@ import { CommentType } from "../../utils/types";
 function Comment({
   data,
   handleReply,
+  handleDelete,
 }: {
   data: CommentType;
   handleReply: Function;
+  handleDelete: Function;
 }) {
   const [replyComment, setReplyComment] = useState("");
   const [enableReply, setReplyStatus] = useState(false);
@@ -36,7 +38,7 @@ function Comment({
         <Button
           type={BUTTON_TYPES.outline}
           category={BUTTON_CATEGORY.error}
-          onClick={() => {}}
+          onClick={() => handleDelete()}
         >
           Delete
         </Button>
