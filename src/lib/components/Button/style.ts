@@ -3,10 +3,10 @@ import styled from "styled-components";
 const ButtonWrapper = styled.button<any>`
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   opacity: ${({ disabled }) => (disabled ? "0.4" : "1")};
+  padding: 0.3rem 0.75rem;
+  font-weight: 600;
   &.normal {
-    font-weight: 600;
     border: 1.5px solid transparent;
-    padding: 0.5rem 1rem;
     color: ${({ theme }) => theme?.textLight};
     &.primary {
       background: ${({ theme }) => theme?.primary};
@@ -20,8 +20,7 @@ const ButtonWrapper = styled.button<any>`
   }
   &.outline {
     background: transparent;
-    font-weight: 600;
-    padding: 0.5rem 1rem;
+
     &.primary {
       color: ${({ theme }) => theme?.primary};
       border: ${({ theme }) => `1.5px solid ${theme?.primary}`};

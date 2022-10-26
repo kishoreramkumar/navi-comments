@@ -4,7 +4,7 @@ import { InputLabel, InputWrapper, InputTag } from "./style";
 
 interface InputProps {
   name: string;
-  label: string;
+  label?: string;
   value?: string;
   type?: HTMLInputTypeAttribute;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;

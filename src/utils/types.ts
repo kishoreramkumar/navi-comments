@@ -1,7 +1,8 @@
 export interface CommentType {
+  id: String;
   body: String;
-  createdAt: BigInt;
+  createdAt: number;
   createdBy: string;
   replies?: Array<CommentType>;
-  updatedAt: BigInt;
+  updatedAt: number;
 }

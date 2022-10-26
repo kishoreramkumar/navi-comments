@@ -1,6 +1,6 @@
 import { useState, ChangeEvent } from "react";
 import { Button, Input } from "../../lib/components";
-import { getCurrentTimestamp } from "../../utils";
+import { getCurrentTimestamp, getUniqueId } from "../../utils";
 import { AddCommentWrapper } from "./style";
 
 interface iAddCommentPropType {
@@ -16,6 +16,7 @@ function AddComment({ handleAddComment }: iAddCommentPropType) {
   const handleAddBtnClick = () => {
     const timeStamp = getCurrentTimestamp();
     handleAddComment({
+      id: getUniqueId(),
       body: comment,
       createdAt: timeStamp,
       createdBy: "",
